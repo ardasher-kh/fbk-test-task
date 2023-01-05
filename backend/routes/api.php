@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Request example:
+// http://localhost:8000/api/comments?sort_by_created_at=DESC&sort_by_user_name=ASC&sort_by_likes_count=ASC&page=1
+Route::get('comments', [\App\Http\Controllers\CommentController::class, 'show']);

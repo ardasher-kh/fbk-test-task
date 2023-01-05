@@ -29,8 +29,8 @@ RUN apt-get update \
     cron \
   &&  ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
 
-RUN docker-php-ext-install pgsql \
-    && docker-php-ext-install pdo_pgsql \
+RUN docker-php-ext-install mysqli \
+    && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install intl \
     && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
