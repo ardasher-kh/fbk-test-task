@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  nginx:
+    container_name: ${APP_NAME}_nginx
+    build:
+      context: ./.docker/development/nginx
+      dockerfile: nginx.Dockerfile
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+      - "443:443"
+
+  php-fpm:
+    container_name: ${APP_NAME}_php-fpm
+    build:
+      context: ./.docker/development/php-fpm
+      dockerfile: php-fpm.Dockerfile
+    volumes:
+      - ./backend:/app
+  redis:
+    container_name: ${APP_NAME}_redis
+    image: redis
+    ports:
+      - "6379:6379"
+  db:
+    container_name: ${APP_NAME}_db
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password --sql_mode=''
+    restart: always
+    volumes:
+      - ./.docker/db/data:/var/lib/mysql/
+      - ./.docker/db/dumps:/dumps
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
